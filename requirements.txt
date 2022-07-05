@@ -1,4 +1,4 @@
-asgiref==3.4.1
+cdasgiref==3.4.1
 alembic==1.7.1
 blueprint==3.4.2
 backcall==0.2.0
