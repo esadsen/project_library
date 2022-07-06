@@ -1,5 +1,3 @@
-
-from re import A
 import bcrypt
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy

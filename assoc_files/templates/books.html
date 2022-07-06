@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>BOOK STORE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="../static/table/css/style.css">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">BOOKS</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h4 class="text-center mb-4">BOOKS ARE AVAIBLE</h4>
+					<div class="table-wrap">
+						<table class="table">
+					    <thead class="thead-primary">
+					      <tr>
+					        <th>ID</th>
+					        <th>NAME</th>
+					        <th>ISBN</th>
+					        <th>RENT</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+						  {% for i in books %}		
+					      <tr>
+					        <td>{{i.id}}</td>
+					        <td>{{i.name}}</td>
+					        <td>{{i.isbn}}</td>
+                            <td><a href="#" class="btn btn-primary">RENT</a></td>
+					      </tr>
+					      {% endfor %}
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="../static/table/js/jquery.min.js"></script>
+  <script src="../static/table/js/popper.js"></script>
+  <script src="../static/table/js/bootstrap.min.js"></script>
+  <script src="../static/table/js/main.js"></script>
+
+	</body>
+</html>
+

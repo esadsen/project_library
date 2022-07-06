@@ -30,6 +30,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
    </head>
    <!-- body -->
+   
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
@@ -59,15 +60,28 @@
                            </button>
                            <div class="collapse navbar-collapse" id="navbarsExample04">
                               <ul class="navbar-nav mr-auto">
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="#iletisim"> Contact Us  </a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="register.html">Register</a>
-                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" href="login.html">Login</a>
-                                 </li>
+                                 {% if session["logged_in"] %}
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                                    </li>
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="#iletisim"> Contact Us  </a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{{url_for('book_page')}}">Books</a>
+                                    </li>
+                                 {% else %}
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{{url_for('register_user')}}">Register</a>
+                                    </li>
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{{url_for('login')}}">Login</a>
+                                    </li>
+                                 {% endif %}
+                                 
+                                 
+                                 
                               </ul>
                            </div>
                         </nav>
@@ -162,4 +176,3 @@
       <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
    </body>
 </html>
-

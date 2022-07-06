@@ -1,5 +1,3 @@
-
-
 /*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
 
 
@@ -309,7 +307,7 @@ button {
 /*--------------------------------------------------------------------- layout new css ---------------------------------------------------------------------*/
 
 .head_top {
-     background: url(../images/bg.jpeg);
+     background: url("../images/bg.png");
      background-size: 100% 100%;
      background-repeat: no-repeat;
      background-position: center;
@@ -790,6 +788,3 @@ ul.social_icon li a:hover {
           margin-top: 1.5rem;
      }
 }
-
-
-
