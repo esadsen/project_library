@@ -29,28 +29,14 @@
                            </button>
                            <div class="collapse navbar-collapse" id="navbarsExample04">
                               <ul class="navbar-nav mr-auto">
-									{% if session["admin"] %}
+                                
                                     <li class="nav-item">
                                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
                                     </li>
-									<li class="nav-item">
-										<a class="nav-link" href="{{url_for('home')}}">Dashboard</a>
-									 </li>
 									 <li class="nav-item">
 										<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
 									 </li>
-									 {% else %}
-									 <li class="nav-item">
-										<a class="nav-link" href="{{url_for('home')}}">Home</a>
-									 </li>
-									 <li class="nav-item">
-										 <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
-									  </li>
-									  <li class="nav-item">
-										 <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-									  </li>
-									 {% endif %}
-									 
+                
                               </ul>
                            </div>
                         </nav>
@@ -77,20 +63,20 @@
 					        <th>ID</th>
 					        <th>NAME</th>
 					        <th>ISBN</th>
+							<th>RENT DATE</th>
 					      </tr>
 					    </thead>
-					    <tbody>	
-								<td colspan="0">
-									<div class="scrollit" >
-										{% for i in books %}		
-											<tr>
-												<td>{{i.id}}</td>
-												<td>{{i.name}}</td>
-												<td>{{i.isbn}}</td>
-											</tr>
-										{% endfor %}
-									</div>
-								</td>					
+					    <tbody>
+						  {% for i in books %}		
+					      <tr>
+					        <td>{{i.id}}</td>
+					        <td>{{i.name}}</td>
+					        <td>{{i.isbn}}</td>
+							<td>{{i.rent_date}}</td>
+					      </tr>
+					      {% endfor %}
+			
+
 					    </tbody>
 					  </table>
 					  <a href="#" data-target="#rent_modal" data-toggle="modal" class="btn btn-primary">RENT</a>

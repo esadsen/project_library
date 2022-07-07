@@ -1,10 +1,14 @@
+from hashlib import new
+from turtle import left
 from flask_security import password_reset
+from matplotlib.ft2font import BOLD
 from assoc_files.config import bcrypt
 from assoc_files.config import app
 from flask import Flask, flash, redirect,url_for, render_template, request , session
 from assoc_files.model import User , Books
 from assoc_files.config import db
 from functools import wraps
+from datetime import date, datetime
 
 
 
@@ -16,6 +20,7 @@ def login_required(f):
         else:
             return redirect(url_for("login"))
     return decorated_function
+
 
 
 @app.route('/',methods = ['GET','POST'])
@@ -39,9 +44,15 @@ def login():
             #print(bcrypt.check_password_hash(user.password,password))
             if user.username == username and user.password==password:
                 #routes pages
-                session["logged_in"] = True
-                session["user_id"] = user.id
-                return render_template("index.html")
+                if user.auth == 1:
+                    session["admin"] = True
+                    session["logged_in"] = True
+                    session["user_id"] = user.id
+                    return redirect(url_for("profile"))
+                else:
+                    session["logged_in"] = True
+                    session["user_id"] = user.id
+                    return redirect(url_for("book_page"))
         except:    
             return "auth failed"
 
@@ -50,16 +61,40 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template("index.html")
+    return redirect("home")
 
 
 @app.route('/books')
-
+@login_required
 def book_page():
 
-    books = Books.query.filter_by(user_id=session['user_id']).all()
+    books = Books.query.all()
+    #available_books = Books.query.filter_by()
     #remaining time => 
     return render_template("books.html",books = books)
+
+
+@app.route('/rent_book',methods = ['GET','POST'])
+def rent_book():
+    
+    if request.method == 'POST':
+        # catch inputs from html
+        book_id = request.form['book']
+        date = request.form['date']
+        # string date converting to datetime date
+        date_converted = convert_to_date(date)
+        #catch book from db where selected book_id from html
+        book = Books.query.filter_by(id=book_id).first()
+        # update book user_id
+        book.user_id = session["user_id"]
+        # update book rent_date 
+        book.rent_date = date_converted
+        # db apply
+        db.session.commit()
+        return redirect(url_for("book_page"))
+    return redirect(url_for("book_page"))
+    
+
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -83,3 +118,29 @@ def register_user():
             return "User added"
    
     return render_template("register.html")
+
+
+
+
+@app.route("/profile",methods = ['GET','POST'])
+@login_required
+def profile():
+    books = Books.query.filter_by(user_id = session["user_id"]).all()
+
+    return render_template("profile.html",books = books)
+
+
+
+
+
+
+
+
+
+def diffrence_between_dates(d1):
+    d1 = datetime.fromisoformat(d1)
+    return abs((datetime.now()-d1).days)
+
+def convert_to_date(d1):
+    d1 = datetime.fromisoformat(d1)
+    return d1

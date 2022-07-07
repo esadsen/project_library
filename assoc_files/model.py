@@ -13,7 +13,7 @@ class User(db.Model):
     password = db.Column(db.String(45))
     auth = db.Column(db.Integer)
     email = db.Column(db.String(45))
-
+    books = db.Column(db.Integer)
 
 class Books(db.Model):
     __tablename__ = 'books'
@@ -21,3 +21,5 @@ class Books(db.Model):
     name = db.Column(db.String(45))
     isbn = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
+    rent_date = db.Column(db.DateTime)
+
