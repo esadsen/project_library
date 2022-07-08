@@ -73,7 +73,7 @@
                                     <li class="nav-item">
                                        <a class="nav-link" href="{{url_for('home')}}">Dashboard</a>
                                     </li>
-                                 {% elif session["logged in"] %}
+                                 {% elif session["logged_in"] %}
                                  <li class="nav-item">
                                     <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                                  </li>

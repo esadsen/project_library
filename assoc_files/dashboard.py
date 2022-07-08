@@ -68,7 +68,7 @@ def logout():
 @login_required
 def book_page():
 
-    books = Books.query.all()
+    books = Books.query.filter_by(user_id = 0).all()
     #available_books = Books.query.filter_by()
     #remaining time => 
     return render_template("books.html",books = books)
@@ -103,7 +103,7 @@ def register_user():
                 # route pages will come here
                 return "this username is already used please come back and select another username"
         except:
-            new_user = User(username=username,email=email,password=password)
+            new_user = User(username=username,email=email,password=password,book_count = 0 , penalty = 0)
             db.session.add(new_user)
             db.session.commit()
             return "User added"
@@ -119,6 +119,7 @@ def register_user():
 def rent_book():
     
     if request.method == 'POST':
+        user = User.query.filter_by(id = session["user_id"]).first()
         # catch inputs from html
         book_id = request.form['book']
         date = request.form['date']
@@ -132,6 +133,7 @@ def rent_book():
         # update book rent_date 
         book.rent_date = datetime.now()
         book.last_rent_date = date_converted
+        user.book_count += 1
         # db apply
         db.session.commit()
         return redirect(url_for("book_page"))

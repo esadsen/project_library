@@ -13,7 +13,8 @@ class User(db.Model):
     password = db.Column(db.String(45))
     auth = db.Column(db.Integer)
     email = db.Column(db.String(45))
-    books = db.Column(db.Integer)
+    book_count = db.Column(db.Integer)
+    penalty = db.Column(db.Integer)
 
 class Books(db.Model):
     __tablename__ = 'books'
