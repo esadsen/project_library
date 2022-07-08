@@ -8,17 +8,23 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="../static/table/css/style.css">
 	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
-      <!-- style css -->
-      <link rel="stylesheet" href="../static/css/style.css">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="../static/css/responsive.css">
-	  <link rel="stylesheet" href="../static/css/jquery.mCustomScrollbar.min.css">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+	<!-- style css -->
+	<link rel="stylesheet" href="../static/css/style.css">
+	<!-- Responsive-->
+	<link rel="stylesheet" href="../static/css/responsive.css">
+	<link rel="stylesheet" href="../static/css/jquery.mCustomScrollbar.min.css">
+	<!-- Tweaks for older IEs-->
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	
+
+
 
 	</head>
 	<body class="main-layout">
@@ -66,37 +72,31 @@
 					<h2 class="heading-section">BOOKS</h2>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<h4 class="text-center mb-4">BOOKS ARE AVAILABLE</h4>
-					<a href="#" data-target="#rent_modal" data-toggle="modal" class="btn btn-primary">RENT</a>
-					<div class="table-wrap">
-						<table class="table">
-					    <thead class="thead-primary">
-					      <tr>
-					        <th>ID</th>
-					        <th>NAME</th>
-					        <th>ISBN</th>
-					      </tr>
-					    </thead>
-					    <tbody>	
-								<td colspan="0">
-									<div class="scrollit" >
-										{% for i in books %}		
-											<tr>
-												<td>{{i.id}}</td>
-												<td>{{i.name}}</td>
-												<td>{{i.isbn}}</td>
-											</tr>
-										{% endfor %}
-									</div>
-								</td>					
-					    </tbody>
-					  </table>
+			<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+				<table class="table table-bordered table-striped mb-0" style="height: 100px;">
+				  <thead>
+					<tr>
+					  <th scope="col">ID</th>
+					  <th scope="col">NAME</th>
+					  <th scope="col">ISBN</th>
 					  <a href="#" data-target="#rent_modal" data-toggle="modal" class="btn btn-primary">RENT</a>
-					</div>
-				</div>
-			</div>
+					</tr>
+				  </thead>
+				  <tbody>
+					{% for i in books %}
+
+						<tr>
+							<td>{{i.id}}</td>
+							<td>{{i.name}}</td>
+							<td>{{i.isbn}}</td>
+						</tr>
+
+					{% endfor %}
+				  </tbody>
+				 
+				</table>
+			  </div>
 		</div>
 	</section>
 
@@ -121,10 +121,13 @@
 				</div>
 				<div class="form-group">
 					<label>Rent Date:</label>
-					<input type="date" class="form-control" name="date" required="1">
+					<input type="date" id="datecalendar" class="form-control" name="date" required="1">
+					<script type='text/javascript'>
+						var today = new Date().toISOString().split('T')[0];
+						document.getElementsByName("date")[0].setAttribute('min', today);
+					</script>
 				</div>
 				
-					
 				<div class="form-group">
 				  <button class="btn btn-primary" type="submit">Rent Book</button>
 				</div>
@@ -142,11 +145,31 @@
 
 
 
+	
+   
+	
 
-
-
-
-	<script src="../static/table/js/jquery.min.js"></script>
+  <script>
+	$(function()
+	{
+		var dtToday = new Date();
+		
+		var month = dtToday.getMonth() + 1;
+		var day = dtToday.getDate();
+		var year = dtToday.getFullYear();
+		if(month < 10)
+			month = '0' + month.toString();
+		if(day < 10)
+			day = '0' + day.toString();
+		
+		var minDate= year + '-' + month + '-' + day;
+		
+		$('#date').attr('min', minDate);
+	});
+  </script>
+  
+  	  
+  <script src="../static/table/js/jquery.min.js"></script>
   <script src="../static/table/js/popper.js"></script>
   <script src="../static/table/js/bootstrap.min.js"></script>
   <script src="../static/table/js/main.js"></script>

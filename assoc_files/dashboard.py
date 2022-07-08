@@ -9,7 +9,7 @@ from assoc_files.model import User , Books
 from assoc_files.config import db
 from functools import wraps
 from datetime import date, datetime
-
+from sqlalchemy import *
 
 
 def login_required(f):
@@ -74,26 +74,17 @@ def book_page():
     return render_template("books.html",books = books)
 
 
-@app.route('/rent_book',methods = ['GET','POST'])
-def rent_book():
-    
-    if request.method == 'POST':
-        # catch inputs from html
-        book_id = request.form['book']
-        date = request.form['date']
-        # string date converting to datetime date
-        date_converted = convert_to_date(date)
-        #catch book from db where selected book_id from html
-        book = Books.query.filter_by(id=book_id).first()
-        # update book user_id
-        book.user_id = session["user_id"]
-        # update book rent_date 
-        book.rent_date = date_converted
-        # db apply
-        db.session.commit()
-        return redirect(url_for("book_page"))
-    return redirect(url_for("book_page"))
-    
+@app.route("/profile",methods = ['GET','POST'])
+@login_required
+def profile():
+    books = Books.query.filter_by(user_id = session["user_id"]).all()
+
+
+
+    return render_template("profile.html",books = books )
+
+
+
 
 
 
@@ -122,25 +113,53 @@ def register_user():
 
 
 
-@app.route("/profile",methods = ['GET','POST'])
-@login_required
-def profile():
-    books = Books.query.filter_by(user_id = session["user_id"]).all()
-
-    return render_template("profile.html",books = books)
 
 
+@app.route('/rent_book',methods = ['GET','POST'])
+def rent_book():
+    
+    if request.method == 'POST':
+        # catch inputs from html
+        book_id = request.form['book']
+        date = request.form['date']
+        # string date converting to datetime date
+        date_converted = convert_date(date)
+
+        #catch book from db where selected book_id from html
+        book = Books.query.filter_by(id=book_id).first()
+        # update book user_id
+        book.user_id = session["user_id"]
+        # update book rent_date 
+        book.rent_date = datetime.now()
+        book.last_rent_date = date_converted
+        # db apply
+        db.session.commit()
+        return redirect(url_for("book_page"))
+    return redirect(url_for("book_page"))
+    
+
+@app.route('/re_rent',methods = ['GET','POST'])
+def re_rent_book():
+    if request.method == 'POST':
+        book_id = request.form['book']
+        book = Books.query.filter_by(id=book_id).first()
+        book.rent_date = None
+        book.last_rent_date = None
+        book.user_id = 0
+        book.last_user = session['user_id']
+        db.session.commit()
+        return redirect(url_for("profile"))
+
+
+def control_rent_days():
+    pass
 
 
 
+def diffrence_between_dates(lastrent_date,rent_date):
+    return abs(((lastrent_date-rent_date).days) + 1 )
 
 
-
-
-def diffrence_between_dates(d1):
-    d1 = datetime.fromisoformat(d1)
-    return abs((datetime.now()-d1).days)
-
-def convert_to_date(d1):
+def convert_date(d1):
     d1 = datetime.fromisoformat(d1)
     return d1

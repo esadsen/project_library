@@ -22,4 +22,5 @@ class Books(db.Model):
     isbn = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
     rent_date = db.Column(db.DateTime)
-
+    last_rent_date = db.Column(db.DateTime)
+    last_user = db.Column(db.Integer)
