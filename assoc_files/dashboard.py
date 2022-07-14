@@ -1,7 +1,3 @@
-from hashlib import new
-from turtle import left
-from flask_security import password_reset
-from matplotlib.ft2font import BOLD
 from assoc_files.config import bcrypt
 from assoc_files.config import app
 from flask import Flask, flash, redirect,url_for, render_template, request , session
@@ -77,8 +73,9 @@ def book_page():
 @app.route("/profile",methods = ['GET','POST'])
 @login_required
 def profile():
+    user = User.query.filter_by(id = session["user_id"]).first()
     books = Books.query.filter_by(user_id = session["user_id"]).all()
-
+    
 
 
     return render_template("profile.html",books = books )
@@ -120,6 +117,13 @@ def rent_book():
     
     if request.method == 'POST':
         user = User.query.filter_by(id = session["user_id"]).first()
+        books = Books.query.filter_by(user_id = session["user_id"]).all()
+        if user.book_count >= 3:
+            return "Error"
+        for i in range(0,len(books)):
+            if diffrence_between_dates(books[i].last_rent_date,datetime.now()) < 0:
+                flash('You must return your out-dated book first',"error")
+                return redirect(url_for('profile'))
         # catch inputs from html
         book_id = request.form['book']
         date = request.form['date']
@@ -153,13 +157,9 @@ def re_rent_book():
         return redirect(url_for("profile"))
 
 
-def control_rent_days():
-    pass
-
-
 
 def diffrence_between_dates(lastrent_date,rent_date):
-    return abs(((lastrent_date-rent_date).days) + 1 )
+    return ((lastrent_date-rent_date).days) + 1
 
 
 def convert_date(d1):
