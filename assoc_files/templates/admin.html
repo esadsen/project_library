@@ -39,7 +39,7 @@
                            </button>
                            <div class="collapse navbar-collapse" id="navbarsExample04">
                               <ul class="navbar-nav mr-auto">
-                                
+
                                     <li class="nav-item">
                                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
                                     </li>
@@ -49,7 +49,7 @@
 									 <li class="nav-item">
 										<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
 									 </li>
-                
+
                               </ul>
                            </div>
                         </nav>
@@ -62,7 +62,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">BOOKS</h2>
+					<h2 class="heading-section">Admin Page</h2>
 				</div>
 			</div>
 			<div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -76,14 +76,21 @@
 					  <th scope="col">RENT DATE</th>
 					  <th scope="col">LAST RENT DATE</th>
 					  <th scope="col">Days left to return the book</th>
+                      <th scope="col">user_id</th>
 
 					  <a href="#" data-target="#rent_modal" data-toggle="modal" class="btn btn-primary">RENT</a>
                       <a href="#" data-target="#re_rent_modal" data-toggle="modal" class="btn btn-danger">RETURN THE BOOK</a>
+                      <form method="post" action="{{ url_for("upload_image") }}" enctype=multipart/form-data>
+
+                          <input type=file name=image_file>
+                          <button type="submit" class="btn btn-info" >ADD BOOK</button>
+                      </form>
+
+
 					</tr>
 				  </thead>
 				  <tbody>
 					{% for i in books %}
-
 					<tr>
 					  <td>{{i.id}}</td>
 					  <td>{{i.name}}</td>
@@ -91,10 +98,11 @@
 					  <td>{{i.rent_date}}</td>
 					  <td>{{i.last_rent_date}}</td>
                       <td>{{((i.last_rent_date)-(now_date)).days + 1}} Days</td>
+                      <td>{{i.user_id}}</td>
 					</tr>
 					{% endfor %}
 				  </tbody>
-				 
+
 				</table>
 			  </div>
 		</div>
@@ -123,8 +131,8 @@
 					<label>Rent Date:</label>
 					<input type="date" class="form-control" name="date" required="1">
 				</div>
-				
-					
+
+
 				<div class="form-group">
 				  <button class="btn btn-primary" type="submit">Rent Book</button>
 				</div>
@@ -144,7 +152,7 @@
 			  <h4 class="modal-title">Rent </h4>
 			</div>
 			<div class="modal-body">
-			  <form action="{{url_for('re_rent_book')}}" method="post">
+			  <form action="{{url_for('return_book_admin')}}" method="post">
 				<div class="form-group">
 				  <select name="book" >
 					<option value="">Choose Book</option>

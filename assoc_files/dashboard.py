@@ -4,7 +4,7 @@ from flask import Flask, flash, redirect,url_for, render_template, request , ses
 from assoc_files.model import User , Books
 from assoc_files.config import db
 from functools import wraps
-from datetime import date, datetime
+from datetime import date, datetime,timedelta
 from sqlalchemy import *
 
 
@@ -17,6 +17,26 @@ def login_required(f):
             return redirect(url_for("login"))
     return decorated_function
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "admin" in session :
+             return f(*args, **kwargs)
+        else:
+            return redirect(url_for("login"))
+    return decorated_function
+
+
+@app.route('/admin',methods=["GET","POST"])
+@login_required
+@admin_required
+def admin():
+    now_date = datetime.now()
+    books = Books.query.all()
+    for i in books:
+        if i.last_rent_date == None:
+            i.last_rent_date = datetime.today() - timedelta(days=1)
+    return render_template("admin.html",books=books,now_date=now_date)
 
 
 @app.route('/',methods = ['GET','POST'])
@@ -60,6 +80,12 @@ def logout():
     return redirect("home")
 
 
+@app.route('/upload_image',methods=["POST"])
+def upload_image():
+    image = request.files["image_file"]
+    print(image)
+    return redirect(url_for("admin"))
+
 @app.route('/books')
 @login_required
 def book_page():
@@ -75,14 +101,9 @@ def book_page():
 def profile():
     user = User.query.filter_by(id = session["user_id"]).first()
     books = Books.query.filter_by(user_id = session["user_id"]).all()
-    
+    now_date = datetime.now()
 
-
-    return render_template("profile.html",books = books )
-
-
-
-
+    return render_template("profile.html",books = books ,now_date=now_date)
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -106,10 +127,6 @@ def register_user():
             return "User added"
    
     return render_template("register.html")
-
-
-
-
 
 
 @app.route('/rent_book',methods = ['GET','POST'])
@@ -157,6 +174,17 @@ def re_rent_book():
         return redirect(url_for("profile"))
 
 
+@app.route('/return_book_admin',methods=["GET","POST"])
+def return_book_admin():
+    if request.method == 'POST':
+        book_id = request.form['book']
+        book = Books.query.filter_by(id=book_id).first()
+        book.rent_date = None
+        book.last_rent_date = None
+        book.user_id = 0
+        book.last_user = session['user_id']
+        db.session.commit()
+        return redirect(url_for("admin"))
 
 def diffrence_between_dates(lastrent_date,rent_date):
     return ((lastrent_date-rent_date).days) + 1
