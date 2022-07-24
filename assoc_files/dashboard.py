@@ -198,21 +198,16 @@ def diffrence_between_dates(lastrent_date,rent_date):
 def add_book():
     if request.method == 'POST':
         print("199")
-        #book_name=request.form['book_name']
-        #book_userid=0
-        #book_rentd= None
-        #book_lastrd= None
-        #book_lastuser= None
+        book_name=request.form['book_name']
         pytesseract.pytesseract.tesseract_cmd=r'/usr/local/bin/tesseract'
         image = request.files['image_file']    
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename)))
-        img=cv2.imread('uploads/img2.png')
-        print(img)
-        #cv2.imshow('image',img)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
+        img=cv2.imread('/Users/esadc/Desktop/project/project_library/assoc_files/uploads/img2.png')
         text=pytesseract.image_to_string(img)
-        print(text)
+        book_isbn=text[22:]
+        new_book = Books(name=book_name,isbn=book_isbn,user_id = 0 , rent_date = None,last_rent_date= None,last_user=0) 
+        db.session.add(new_book)
+        db.session.commit()
         return render_template("admin.html")
 
 
