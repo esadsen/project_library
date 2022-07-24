@@ -6,7 +6,14 @@ from assoc_files.config import db
 from functools import wraps
 from datetime import date, datetime,timedelta
 from sqlalchemy import *
+import cv2
+import pytesseract
+import numpy
+from werkzeug.utils import secure_filename
+import os
 
+upload_folder="assoc_files/uploads/"
+app.config['UPLOAD_FOLDER']=upload_folder
 
 def login_required(f):
     @wraps(f)
@@ -80,11 +87,7 @@ def logout():
     return redirect("home")
 
 
-@app.route('/upload_image',methods=["POST"])
-def upload_image():
-    image = request.files["image_file"]
-    print(image)
-    return redirect(url_for("admin"))
+
 
 @app.route('/books')
 @login_required
@@ -188,6 +191,30 @@ def return_book_admin():
 
 def diffrence_between_dates(lastrent_date,rent_date):
     return ((lastrent_date-rent_date).days) + 1
+
+@app.route('/upload_image',methods=["GET","POST"])
+@login_required
+@admin_required
+def add_book():
+    if request.method == 'POST':
+        print("199")
+        #book_name=request.form['book_name']
+        #book_userid=0
+        #book_rentd= None
+        #book_lastrd= None
+        #book_lastuser= None
+        pytesseract.pytesseract.tesseract_cmd=r'/usr/local/bin/tesseract'
+        image = request.files['image_file']    
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename)))
+        img=cv2.imread('uploads/img2.png')
+        print(img)
+        #cv2.imshow('image',img)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
+        text=pytesseract.image_to_string(img)
+        print(text)
+        return render_template("admin.html")
+
 
 
 def convert_date(d1):

@@ -80,7 +80,7 @@
 
 					  <a href="#" data-target="#rent_modal" data-toggle="modal" class="btn btn-primary">RENT</a>
                       <a href="#" data-target="#re_rent_modal" data-toggle="modal" class="btn btn-danger">RETURN THE BOOK</a>
-                      <form method="post" action="{{ url_for("upload_image") }}" enctype=multipart/form-data>
+                      <form method="post" action="{{url_for("add_book")}}" enctype=multipart/form-data>
 
                           <input type=file name=image_file>
                           <button type="submit" class="btn btn-info" >ADD BOOK</button>
