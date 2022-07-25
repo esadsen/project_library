@@ -55,8 +55,10 @@
                         </nav>
                      </div>
 					 <div class="search-box">
-						<button class="btn-search"><i class="fas fa-search"></i></button>
-						<input type="text" class="input-search" placeholder="Type to Search...">
+						<form action="{{url_for('search_admin')}}" method="POST">
+							<button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+							<input type="text" class="input-search" placeholder="Type to Search..." name="search">
+						</form>
 					  </div>
 	<section class="ftco-section">
 		<div class="container">

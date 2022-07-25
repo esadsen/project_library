@@ -50,7 +50,7 @@
                                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
                                     </li>
 									<li class="nav-item">
-										<a class="nav-link" href="{{url_for('home')}}">Dashboard</a>
+										<a class="nav-link" href="{{url_for('admin')}}">Dashboard</a>
 									 </li>
 									 <li class="nav-item">
 										<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
@@ -71,9 +71,11 @@
                            </div>
                         </nav>
                      </div>
-					 <div class="search-box">
-						<button class="btn-search"><i class="fas fa-search"></i></button>
-						<input type="text" class="input-search" placeholder="Type to Search...">
+					<div class="search-box">
+						<form action="{{url_for('search')}}" method="POST">
+							<button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+							<input type="text" class="input-search" placeholder="Type to Search..." name="search">
+						</form>
 					  </div>
 	<section class="ftco-section">
 		<div class="container">

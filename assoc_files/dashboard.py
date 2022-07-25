@@ -131,6 +131,13 @@ def register_user():
    
     return render_template("register.html")
 
+def diffrence_between_dates(lastrent_date,rent_date):
+    return ((lastrent_date-rent_date).days) + 1
+
+def convert_date(d1):
+    d1 = datetime.fromisoformat(d1)
+    return d1
+
 
 @app.route('/rent_book',methods = ['GET','POST'])
 def rent_book():
@@ -189,8 +196,7 @@ def return_book_admin():
         db.session.commit()
         return redirect(url_for("admin"))
 
-def diffrence_between_dates(lastrent_date,rent_date):
-    return ((lastrent_date-rent_date).days) + 1
+
 
 @app.route('/upload_image',methods=["GET","POST"])
 @login_required
@@ -210,8 +216,33 @@ def add_book():
         db.session.commit()
         return render_template("admin.html")
 
+@app.route('/search',methods=["GET","POST"])
+@login_required
+def search():
+    if request.method == 'POST':
+        book=request.form['search']
+        books = Books.query.filter_by(name = book).all()
+        if not books:
+            print("No book found with that name")
+        else:
+            return render_template("books.html",books = books)
 
+    return render_template("books.html")
 
-def convert_date(d1):
-    d1 = datetime.fromisoformat(d1)
-    return d1
+@app.route('/search_admin',methods=["GET","POST"])
+@login_required
+@admin_required
+def search_admin():
+    if request.method == 'POST':
+        now_date = datetime.now()
+        book=request.form['search']
+        books = Books.query.filter_by(name = book).all()
+        for i in books:
+            if i.last_rent_date == None:
+                i.last_rent_date = datetime.today() - timedelta(days=1)
+        if not books:
+            print("No book found with that name")
+        else:
+            return render_template("admin.html",books = books, now_date=now_date)
+
+    return render_template("admin.html")
