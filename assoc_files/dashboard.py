@@ -205,10 +205,10 @@ def add_book():
     if request.method == 'POST':
         print("199")
         book_name=request.form['book_name']
-        pytesseract.pytesseract.tesseract_cmd=r'/usr/local/bin/tesseract'
+        pytesseract.pytesseract.tesseract_cmd=r'D:/Program Files/Tesseract/tesseract.exe'
         image = request.files['image_file']    
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename)))
-        img=cv2.imread('/Users/esadc/Desktop/project/project_library/assoc_files/uploads/img2.png')
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], "image.png"))
+        img=cv2.imread('assoc_files/uploads/image.png')
         text=pytesseract.image_to_string(img)
         book_isbn=text[22:]
         new_book = Books(name=book_name,isbn=book_isbn,user_id = 0 , rent_date = None,last_rent_date= None,last_user=0) 
