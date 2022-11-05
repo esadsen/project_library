@@ -127,7 +127,7 @@ def register_user():
             new_user = User(username=username,email=email,password=password,book_count = 0 , penalty = 0)
             db.session.add(new_user)
             db.session.commit()
-            return "User added"
+            return redirect(url_for("home"))
    
     return render_template("register.html")
 
