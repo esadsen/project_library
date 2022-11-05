@@ -203,7 +203,6 @@ def return_book_admin():
 @admin_required
 def add_book():
     if request.method == 'POST':
-        print("199")
         book_name=request.form['book_name']
         pytesseract.pytesseract.tesseract_cmd=r'D:/Program Files/Tesseract/tesseract.exe'
         image = request.files['image_file']    
@@ -214,7 +213,12 @@ def add_book():
         new_book = Books(name=book_name,isbn=book_isbn,user_id = 0 , rent_date = None,last_rent_date= None,last_user=0) 
         db.session.add(new_book)
         db.session.commit()
-        return render_template("admin.html")
+        now_date = datetime.now()
+        books = Books.query.all()
+        for i in books:
+            if i.last_rent_date == None:
+                i.last_rent_date = datetime.today() - timedelta(days=1)
+        return render_template("admin.html",books=books,now_date=now_date)
 
 @app.route('/search',methods=["GET","POST"])
 @login_required

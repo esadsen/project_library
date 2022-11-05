@@ -57,7 +57,7 @@
                         <div class="full">
                            <div class="center-desk">
                               <div class="blogg">
-                                 <a href="index.html"><h1 class="blogg">BOOK STORE</h1></a>
+                                 <a href="{{url_for('home')}}"><h1 class="blogg">BOOK STORE</h1></a>
                               </div>
                            </div>
                         </div>
@@ -79,6 +79,9 @@
                                     
                                     <li class="nav-item">
                                        <a class="nav-link" href="{{url_for('book_page')}}">Books</a>
+                                    </li>
+                                    <li class="nav-item">
+                                       <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
                                     </li>
                                     <li class="nav-item">
                                        <a class="nav-link" href="{{url_for('admin')}}">Dashboard</a>
@@ -147,15 +150,15 @@
                      </div>
                   </div>
                   <div class="w3-container w3-padding-large w3-grey" id="iletisim">
-               <h4 id="contact"><b>İletişim</b></h4>
+               <h4 id="contact"><b>Contact</b></h4>
                 <div class="w3-row-padding w3-center w3-padding-24" style="margin:0 -16px">
                   <div class="w3-third w3-dark-grey">
                     <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
-                    <p>mgs-blog@gmail.com</p>
+                    <p>book-store@gmail.com</p>
                   </div>
                   <div class="w3-third w3-teal">
                     <p><i class="fa fa-map-marker w3-xxlarge w3-text-light-grey"></i></p>
-                    <p>İstanbul, Türkiye</p>
+                    <p>Istanbul, Turkey</p>
                   </div>
                   <div class="w3-third w3-dark-grey">
                     <p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
@@ -180,7 +183,7 @@
                   <div class="row">
                      <div class="col-md-12">
 
-                        <p>© 2022 All Rights Reserved. Design by Esad Şen<a href="https://html.design/"></a></p>
+                        <p>© 2022 All Rights Reserved. Design by Esad Şen / Mustafa Şencan<a href="https://html.design/"></a></p>
                      </div>
                   </div>
                </div>
