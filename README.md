@@ -41,5 +41,5 @@ You will need to change the database address at config.py file to your local/onl
 Here is the database you will need:
 [db_server.zip](https://github.com/Blankbee/project_library/files/9943717/db_server.zip)
 
-##Running
+## Running
 Just run the app.py file and you are good to go
