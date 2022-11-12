@@ -2,6 +2,8 @@
 # Project Library
 A Python Flask website for renting books from a bookstore with some other features
 ## Requirements
+Recommended python version=3.9.13
+
 You will need this python packages below
 ```bash
 bcrypt
@@ -32,10 +34,12 @@ For Mac:
 ```bash
 brew install tesseract
 ```
+You will need to change the tesseract-ocr location with yours at dashboard.py line 207
 
 You will need to change the database address at config.py file to your local/online database server address
 
 Here is the database you will need:
 [db_server.zip](https://github.com/Blankbee/project_library/files/9943717/db_server.zip)
 
-
+## Running
+Just run the app.py file and you are good to go
