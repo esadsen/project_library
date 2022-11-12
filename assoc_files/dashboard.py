@@ -152,6 +152,7 @@ def rent_book():
                 flash('You must return your out-dated book first',"error")
                 return redirect(url_for('profile'))
         # catch inputs from html
+        #s
         book_id = request.form['book']
         date = request.form['date']
         # string date converting to datetime date
