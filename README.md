@@ -40,6 +40,7 @@ You will need to change the database address at config.py file to your local/onl
 
 Here is the database you will need:
 [db_server.zip](https://github.com/Blankbee/project_library/files/10025668/db_server.zip)
+
 Here is the some images of the project:
 [bs-images.zip](https://github.com/Blankbee/project_library/files/10025691/bs-images.zip)
 
