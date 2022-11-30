@@ -11,14 +11,12 @@ flask
 flask_sqlalchemy
 flask_bcrypt
 flask_wtf
-functools
 datetime
 sqlalchemy
-cv2
+cv
 pytesseract
 numpy
-werkzeug.utils
-os
+werkzeug
 wtforms
 mysql
 ```
